@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mn">
 
 <head>
     <meta charset="UTF-8">
@@ -68,6 +68,13 @@
             color: var(--main);
         }
         
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        
         nav {
             display: flex;
             gap: 26px;
@@ -99,6 +106,30 @@
         
         nav a:hover::after {
             width: 100%;
+        }
+        
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(255, 255, 255, .03);
+            color: #fff;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .3s;
+        }
+        
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--main), var(--main2));
+            color: #08111f;
+            border-color: transparent;
         }
         
         section {
@@ -602,6 +633,11 @@
                 gap: 10px;
                 flex-direction: column;
             }
+            .header-right {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+            }
             section {
                 padding: 110px 5% 60px;
             }
@@ -635,36 +671,42 @@
 <body>
 
     <header>
-        <a href="#" class="logo">Ekuna<span>.</span></a>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </nav>
+        <a href="#" class="logo">Kuma<span>.</span></a>
+
+        <div class="header-right">
+            <nav>
+                <a href="#home" id="nav-home"></a>
+                <a href="#about" id="nav-about"></a>
+                <a href="#skills" id="nav-skills"></a>
+                <a href="#projects" id="nav-projects"></a>
+                <a href="#contact" id="nav-contact"></a>
+            </nav>
+
+            <div class="lang-switch">
+                <button class="lang-btn" id="btn-mn" onclick="setLanguage('mn')">MN</button>
+                <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+            </div>
+        </div>
     </header>
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <div class="tag">Welcome to my portfolio</div>
-            <h1>Hello, I'm <span>Ekuna</span></h1>
-            <h3>Web Developer & System Builder</h3>
-            <p>
-                I create clean, modern websites using HTML, CSS, and design-focused frontend development. I enjoy building portfolio websites and practical digital projects.
-            </p>
+            <div class="tag" id="hero-tag"></div>
+            <h1 id="hero-title"></h1>
+            <h3 id="hero-subtitle"></h3>
+            <p id="hero-desc"></p>
 
             <div class="btn-group">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#contact" class="btn btn-outline">Contact Me</a>
+                <a href="#projects" class="btn btn-primary" id="hero-btn-projects"></a>
+                <a href="#contact" class="btn btn-outline" id="hero-btn-contact"></a>
             </div>
         </div>
 
         <div class="hero-image-wrap">
             <div class="hero-card">
                 <div class="hero-card-inner">
-                    <img src="2.png" alt="Profile Photo">
-                    <div class="hero-badge">Available for web projects</div>
+                    <img src="2.png" alt="Профайл зураг">
+                    <div class="hero-badge" id="hero-badge"></div>
                 </div>
             </div>
         </div>
@@ -672,38 +714,32 @@
 
     <section class="about" id="about">
         <div class="section-title">
-            <h2>About <span>Me</span></h2>
-            <p>
-                A short introduction about my skills, experience, and the type of work I like to create.
-            </p>
+            <h2 id="about-title"></h2>
+            <p id="about-subtitle"></p>
         </div>
 
         <div class="about-grid">
             <div class="about-image">
-                <img src="3.png" alt="About Me">
+                <img src="3.png" alt="About image">
             </div>
 
             <div class="about-content">
-                <h3>I build websites that look modern and work smoothly.</h3>
-                <p>
-                    I am interested in frontend design and clean user interfaces. I enjoy turning ideas into websites that are responsive, attractive, and easy to use.
-                </p>
-                <p>
-                    My goal is to create professional-looking projects that are not only visually attractive, but also practical and useful in real life.
-                </p>
+                <h3 id="about-heading"></h3>
+                <p id="about-p1"></p>
+                <p id="about-p2"></p>
 
                 <div class="stats">
                     <div class="stat">
                         <h4>3+</h4>
-                        <p>Projects Built</p>
+                        <p id="stat-1"></p>
                     </div>
                     <div class="stat">
                         <h4>100%</h4>
-                        <p>Responsive Design</p>
+                        <p id="stat-2"></p>
                     </div>
                     <div class="stat">
                         <h4>24/7</h4>
-                        <p>Learning Mode</p>
+                        <p id="stat-3"></p>
                     </div>
                 </div>
             </div>
@@ -712,45 +748,41 @@
 
     <section id="skills">
         <div class="section-title">
-            <h2>My <span>Skills</span></h2>
-            <p>
-                These are the main technologies and strengths I use when building modern web projects.
-            </p>
+            <h2 id="skills-title"></h2>
+            <p id="skills-subtitle"></p>
         </div>
 
         <div class="skills-grid">
             <div class="skill-card">
                 <div class="icon">💻</div>
                 <h3>HTML & CSS</h3>
-                <p>I build clean layouts, responsive pages, portfolio sites, and modern landing page interfaces.</p>
+                <p id="skill-html"></p>
             </div>
 
             <div class="skill-card">
                 <div class="icon">⚙️</div>
                 <h3>PHP</h3>
-                <p>I have experience with backend logic and dynamic pages in local development projects.</p>
+                <p id="skill-php"></p>
             </div>
 
             <div class="skill-card">
                 <div class="icon">🗄️</div>
                 <h3>MySQL</h3>
-                <p>I have worked with forms, projects, and admin pages using MySQL and phpMyAdmin.</p>
+                <p id="skill-mysql"></p>
             </div>
 
             <div class="skill-card">
                 <div class="icon">🎨</div>
-                <h3>UI Design</h3>
-                <p>I focus on clean colors, spacing, hover effects, and a modern visual style that feels professional.</p>
+                <h3 id="skill-ui-title"></h3>
+                <p id="skill-ui"></p>
             </div>
         </div>
     </section>
 
     <section class="projects" id="projects">
         <div class="section-title">
-            <h2>Latest <span>Projects</span></h2>
-            <p>
-                These are some of my featured projects.
-            </p>
+            <h2 id="projects-title"></h2>
+            <p id="projects-subtitle"></p>
         </div>
 
         <div class="project-grid">
@@ -759,12 +791,12 @@
                     <img src="image.png" alt="Car Wash System">
                 </div>
                 <div class="project-body">
-                    <h3>Car Wash System</h3>
-                    <p>A booking and management concept for handling car wash services, customers, and orders.</p>
+                    <h3 id="project1-title"></h3>
+                    <p id="project1-desc"></p>
                     <div class="project-tags">
                         <span>Flutter</span>
                         <span>SQLite</span>
-                        <span>System Design</span>
+                        <span id="project1-tag3"></span>
                     </div>
                 </div>
             </div>
@@ -774,8 +806,8 @@
                     <img src="online.png" alt="Online Shop">
                 </div>
                 <div class="project-body">
-                    <h3>Online Shop</h3>
-                    <p>An e-commerce website layout with product display, user interaction, and admin-style design.</p>
+                    <h3 id="project2-title"></h3>
+                    <p id="project2-desc"></p>
                     <div class="project-tags">
                         <span>PHP</span>
                         <span>MySQL</span>
@@ -788,60 +820,242 @@
 
     <section id="contact">
         <div class="section-title">
-            <h2>Contact <span>Me</span></h2>
-            <p>
-                You can contact me through the details below.
-            </p>
+            <h2 id="contact-title"></h2>
+            <p id="contact-subtitle"></p>
         </div>
 
         <div class="contact-wrap">
             <div class="contact-info">
-                <h3>Let's work together</h3>
-                <p>
-                    If you need a portfolio website or a clean modern webpage, feel free to contact me.
-                </p>
+                <h3 id="contact-heading"></h3>
+                <p id="contact-desc"></p>
 
-                <div class="contact-item"><strong>Email:</strong> Eeba29777@gmail.com</div>
-                <div class="contact-item"><strong>Phone:</strong> +976 9811 4351</div>
-                <div class="contact-item"><strong>Location:</strong> Ulaanbaatar, Mongolia</div>
-                <div class="contact-note">GitHub Pages дээр form database-д хадгалагдахгүй.</div>
+                <div class="contact-item"><strong id="label-email"></strong> Eeba29777@gmail.com</div>
+                <div class="contact-item"><strong id="label-phone"></strong> +976 9811 4351</div>
+                <div class="contact-item"><strong id="label-location"></strong> Ulaanbaatar, Mongolia</div>
+                <div class="contact-note" id="contact-note"></div>
             </div>
 
             <div class="contact-form">
-                <h3>Send Message</h3>
+                <h3 id="form-title"></h3>
                 <form action="mailto:Eeba29777@gmail.com" method="post" enctype="text/plain">
                     <div class="row">
                         <div class="input-group">
-                            <input type="text" name="name" placeholder="Your Name" required>
+                            <input type="text" name="name" id="input-name" required>
                         </div>
                         <div class="input-group">
-                            <input type="email" name="email" placeholder="Your Email" required>
+                            <input type="email" name="email" id="input-email" required>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-group">
-                            <input type="text" name="phone" placeholder="Phone Number">
+                            <input type="text" name="phone" id="input-phone">
                         </div>
                         <div class="input-group">
-                            <input type="text" name="subject" placeholder="Subject">
+                            <input type="text" name="subject" id="input-subject">
                         </div>
                     </div>
 
                     <div class="input-group">
-                        <textarea name="message" placeholder="Write your message..." required></textarea>
+                        <textarea name="message" id="input-message" required></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    <button type="submit" class="btn btn-primary" id="form-btn"></button>
                 </form>
             </div>
         </div>
     </section>
 
-    <footer>
-        © 2026 Ekuna Portfolio. All rights reserved.
-    </footer>
+    <footer id="footer-text"></footer>
 
+    <script>
+        const translations = {
+            mn: {
+                navHome: "Нүүр",
+                navAbout: "Миний тухай",
+                navSkills: "Ур чадвар",
+                navProjects: "Төслүүд",
+                navContact: "Холбоо барих",
+
+                heroTag: "Миний портфолиод тавтай морил",
+                heroTitle: 'Сайн байна уу, намайг <span>Ekuna</span> гэдэг',
+                heroSubtitle: "Вэб хөгжүүлэгч",
+                heroDesc: "Би HTML, CSS дээр суурилсан цэвэрхэн, орчин үеийн вэб сайтууд хөгжүүлдэг. Мөн портфолио сайт болон хэрэгцээт дижитал төслүүд хийх дуртай.",
+                heroBtnProjects: "Төслүүд үзэх",
+                heroBtnContact: "Холбоо барих",
+                heroBadge: "Вэб төслүүд дээр хамтран ажиллах боломжтой",
+
+                aboutTitle: 'Миний <span>тухай</span>',
+                aboutSubtitle: "Миний ур чадвар, туршлага, хийдэг ажлын чиглэлийн товч танилцуулга.",
+                aboutHeading: "Би орчин үеийн, цэвэрхэн харагддаг вэб сайтууд хийдэг.",
+                aboutP1: "Би frontend дизайн болон хэрэглэгчийн ойлгомжтой интерфэйсэд сонирхолтой. Санааг responsive, гоё харагддаг, хэрэглэхэд хялбар вэб сайт болгож хөгжүүлэх дуртай.",
+                aboutP2: "Миний зорилго бол зөвхөн үзэмжтэй биш, бодит хэрэглээнд хэрэгтэй, мэргэжлийн түвшний төслүүд бүтээх юм.",
+                stat1: "Хийсэн төсөл",
+                stat2: "Responsive дизайн",
+                stat3: "Тасралтгүй суралцдаг",
+
+                skillsTitle: 'Миний <span>ур чадвар</span>',
+                skillsSubtitle: "Орчин үеийн вэб төсөл хийхдээ ашигладаг үндсэн технологи, чадварууд.",
+                skillHtml: "Цэвэрхэн бүтэцтэй layout, responsive хуудас, портфолио сайт болон орчин үеийн landing page хийдэг.",
+                skillPhp: "Локал хөгжүүлэлтийн төслүүд дээр backend logic болон динамик хуудсууд дээр ажиллаж байсан туршлагатай.",
+                skillMysql: "MySQL болон phpMyAdmin ашиглан form, project, admin page зэрэг дээр ажиллаж байсан.",
+                skillUiTitle: "UI дизайн",
+                skillUi: "Цэвэрхэн өнгө, spacing, hover effect болон мэргэжлийн харагдах орчин үеийн загварт анхаардаг.",
+
+                projectsTitle: 'Сүүлийн <span>төслүүд</span>',
+                projectsSubtitle: "Миний онцлох хэдэн төслийг доор үзүүллээ.",
+                project1Title: "Авто угаалгын систем",
+                project1Desc: "Авто угаалгын үйлчилгээний захиалга, харилцагч, ажлын урсгалыг удирдах системийн загвар.",
+                project1Tag3: "Системийн дизайн",
+                project2Title: "Онлайн дэлгүүр",
+                project2Desc: "Барааны харагдац, хэрэглэгчийн харилцаа болон admin төрлийн бүтэцтэй e-commerce вэб сайтын загвар.",
+
+                contactTitle: 'Надтай <span>холбогдох</span>',
+                contactSubtitle: "Доорх мэдээллээр надтай холбогдоорой.",
+                contactHeading: "Хамтран ажиллая",
+                contactDesc: "Хэрэв чи портфолио сайт эсвэл орчин үеийн цэвэрхэн вэб хуудас хийлгэх бол надтай чөлөөтэй холбогдоорой.",
+                labelEmail: "И-мэйл: ",
+                labelPhone: "Утас: ",
+                labelLocation: "Байршил: ",
+                contactNote: "GitHub Pages дээр form нь database-д хадгалагдахгүй.",
+                formTitle: "Зурвас илгээх",
+                inputName: "Таны нэр",
+                inputEmail: "Таны и-мэйл",
+                inputPhone: "Утасны дугаар",
+                inputSubject: "Гарчиг",
+                inputMessage: "Зурвасаа бичнэ үү...",
+                formBtn: "Илгээх",
+
+                footer: "© 2026 Ekuna Портфолио. Бүх эрх хуулиар хамгаалагдсан."
+            },
+
+            en: {
+                navHome: "Home",
+                navAbout: "About",
+                navSkills: "Skills",
+                navProjects: "Projects",
+                navContact: "Contact",
+
+                heroTag: "Welcome to my portfolio",
+                heroTitle: 'Hello, I\'m <span>Ekuna</span>',
+                heroSubtitle: "Web Developer ",
+                heroDesc: "I create clean, modern websites using HTML and CSS. I enjoy building portfolio websites and practical digital projects.",
+                heroBtnProjects: "View Projects",
+                heroBtnContact: "Contact Me",
+                heroBadge: "Available for web projects",
+
+                aboutTitle: 'About <span>Me</span>',
+                aboutSubtitle: "A short introduction about my skills, experience, and the type of work I like to create.",
+                aboutHeading: "I build websites that look modern and work smoothly.",
+                aboutP1: "I am interested in frontend design and clean user interfaces. I enjoy turning ideas into responsive, attractive, and easy-to-use websites.",
+                aboutP2: "My goal is to create projects that are not only visually attractive, but also useful in real life.",
+                stat1: "Projects Built",
+                stat2: "Responsive Design",
+                stat3: "Always Learning",
+
+                skillsTitle: 'My <span>Skills</span>',
+                skillsSubtitle: "These are the main technologies and strengths I use when building modern web projects.",
+                skillHtml: "I build clean layouts, responsive pages, portfolio websites, and modern landing pages.",
+                skillPhp: "I have experience with backend logic and dynamic pages in local development projects.",
+                skillMysql: "I have worked with forms, project data, and admin pages using MySQL and phpMyAdmin.",
+                skillUiTitle: "UI Design",
+                skillUi: "I focus on clean colors, spacing, hover effects, and modern professional-looking design.",
+
+                projectsTitle: 'Latest <span>Projects</span>',
+                projectsSubtitle: "Here are some of my featured projects.",
+                project1Title: "Car Wash System",
+                project1Desc: "A system concept for managing bookings, customers, and workflow in a car wash service.",
+                project1Tag3: "System Design",
+                project2Title: "Online Shop",
+                project2Desc: "An e-commerce website design with product display, user interaction, and admin-style structure.",
+
+                contactTitle: '<span>Contact</span> Me',
+                contactSubtitle: "You can reach me using the information below.",
+                contactHeading: "Let's work together",
+                contactDesc: "If you need a portfolio website or a clean modern webpage, feel free to contact me.",
+                labelEmail: "Email: ",
+                labelPhone: "Phone: ",
+                labelLocation: "Location: ",
+                contactNote: "On GitHub Pages, the form will not be saved to a database.",
+                formTitle: "Send Message",
+                inputName: "Your Name",
+                inputEmail: "Your Email",
+                inputPhone: "Phone Number",
+                inputSubject: "Subject",
+                inputMessage: "Write your message...",
+                formBtn: "Send",
+
+                footer: "© 2026 Ekuna Portfolio. All rights reserved."
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem("siteLanguage", lang);
+            document.documentElement.lang = lang;
+
+            document.getElementById("nav-home").textContent = translations[lang].navHome;
+            document.getElementById("nav-about").textContent = translations[lang].navAbout;
+            document.getElementById("nav-skills").textContent = translations[lang].navSkills;
+            document.getElementById("nav-projects").textContent = translations[lang].navProjects;
+            document.getElementById("nav-contact").textContent = translations[lang].navContact;
+
+            document.getElementById("hero-tag").textContent = translations[lang].heroTag;
+            document.getElementById("hero-title").innerHTML = translations[lang].heroTitle;
+            document.getElementById("hero-subtitle").textContent = translations[lang].heroSubtitle;
+            document.getElementById("hero-desc").textContent = translations[lang].heroDesc;
+            document.getElementById("hero-btn-projects").textContent = translations[lang].heroBtnProjects;
+            document.getElementById("hero-btn-contact").textContent = translations[lang].heroBtnContact;
+            document.getElementById("hero-badge").textContent = translations[lang].heroBadge;
+
+            document.getElementById("about-title").innerHTML = translations[lang].aboutTitle;
+            document.getElementById("about-subtitle").textContent = translations[lang].aboutSubtitle;
+            document.getElementById("about-heading").textContent = translations[lang].aboutHeading;
+            document.getElementById("about-p1").textContent = translations[lang].aboutP1;
+            document.getElementById("about-p2").textContent = translations[lang].aboutP2;
+            document.getElementById("stat-1").textContent = translations[lang].stat1;
+            document.getElementById("stat-2").textContent = translations[lang].stat2;
+            document.getElementById("stat-3").textContent = translations[lang].stat3;
+
+            document.getElementById("skills-title").innerHTML = translations[lang].skillsTitle;
+            document.getElementById("skills-subtitle").textContent = translations[lang].skillsSubtitle;
+            document.getElementById("skill-html").textContent = translations[lang].skillHtml;
+            document.getElementById("skill-php").textContent = translations[lang].skillPhp;
+            document.getElementById("skill-mysql").textContent = translations[lang].skillMysql;
+            document.getElementById("skill-ui-title").textContent = translations[lang].skillUiTitle;
+            document.getElementById("skill-ui").textContent = translations[lang].skillUi;
+
+            document.getElementById("projects-title").innerHTML = translations[lang].projectsTitle;
+            document.getElementById("projects-subtitle").textContent = translations[lang].projectsSubtitle;
+            document.getElementById("project1-title").textContent = translations[lang].project1Title;
+            document.getElementById("project1-desc").textContent = translations[lang].project1Desc;
+            document.getElementById("project1-tag3").textContent = translations[lang].project1Tag3;
+            document.getElementById("project2-title").textContent = translations[lang].project2Title;
+            document.getElementById("project2-desc").textContent = translations[lang].project2Desc;
+
+            document.getElementById("contact-title").innerHTML = translations[lang].contactTitle;
+            document.getElementById("contact-subtitle").textContent = translations[lang].contactSubtitle;
+            document.getElementById("contact-heading").textContent = translations[lang].contactHeading;
+            document.getElementById("contact-desc").textContent = translations[lang].contactDesc;
+            document.getElementById("label-email").textContent = translations[lang].labelEmail;
+            document.getElementById("label-phone").textContent = translations[lang].labelPhone;
+            document.getElementById("label-location").textContent = translations[lang].labelLocation;
+            document.getElementById("contact-note").textContent = translations[lang].contactNote;
+            document.getElementById("form-title").textContent = translations[lang].formTitle;
+            document.getElementById("input-name").placeholder = translations[lang].inputName;
+            document.getElementById("input-email").placeholder = translations[lang].inputEmail;
+            document.getElementById("input-phone").placeholder = translations[lang].inputPhone;
+            document.getElementById("input-subject").placeholder = translations[lang].inputSubject;
+            document.getElementById("input-message").placeholder = translations[lang].inputMessage;
+            document.getElementById("form-btn").textContent = translations[lang].formBtn;
+            document.getElementById("footer-text").textContent = translations[lang].footer;
+
+            document.getElementById("btn-mn").classList.toggle("active", lang === "mn");
+            document.getElementById("btn-en").classList.toggle("active", lang === "en");
+        }
+
+        const savedLanguage = localStorage.getItem("siteLanguage") || "mn";
+        setLanguage(savedLanguage);
+    </script>
 </body>
 
 </html>
