@@ -724,7 +724,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="hero-image-wrap">
         <div class="hero-card">
             <div class="hero-card-inner">
-                <img src="https://via.placeholder.com/600x700.png?text=Your+Photo" alt="Profile Photo">
+                <img src="2.png" alt="Profile Photo">
                 <div class="hero-badge">Available for web projects</div>
             </div>
         </div>
@@ -741,7 +741,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="about-grid">
         <div class="about-image">
-            <img src="https://via.placeholder.com/700x900.png?text=About+Image" alt="About Me">
+            <img src="image.png" alt="About Me">
         </div>
 
         <div class="about-content">
