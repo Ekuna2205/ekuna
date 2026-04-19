@@ -166,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="container">
         <div class="top-links">
-            <a href="index.php">Home</a>
+            <a href="index.html">Home</a>
             <a href="projects.php">Project List</a>
             <a href="logout.php">Logout</a>
         </div>

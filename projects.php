@@ -68,7 +68,7 @@ $result = $conn->query("SELECT * FROM projects ORDER BY id DESC");
 </head>
 <body>
     <div class="top-links">
-        <a href="index.php">Home</a>
+        <a href="index.html">Home</a>
         <a href="add_project.php">Add Project</a>
         <a href="messages.php">Messages</a>
     </div>
