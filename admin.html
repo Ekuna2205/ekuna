@@ -4,21 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuma | Admin</title>
+    <title>Kuma | Admin Pro</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
          :root {
             --bg: #0b1120;
-            --card: rgba(255, 255, 255, .06);
-            --border: rgba(255, 255, 255, .12);
+            --card: rgba(255, 255, 255, .07);
+            --border: rgba(255, 255, 255, .13);
             --muted: #94a3b8;
             --main: #38bdf8;
             --main2: #22d3ee;
             --danger: #ef4444;
             --green: #22c55e;
-            --shadow: 0 18px 50px rgba(0, 0, 0, .35);
+            --shadow: 0 18px 55px rgba(0, 0, 0, .38);
         }
         
         * {
@@ -30,7 +30,7 @@
         
         body {
             min-height: 100vh;
-            background: radial-gradient(circle at top left, rgba(56, 189, 248, .18), transparent 30%), radial-gradient(circle at bottom right, rgba(34, 211, 238, .12), transparent 30%), linear-gradient(135deg, #0b1120, #111827);
+            background: radial-gradient(circle at top left, rgba(56, 189, 248, .20), transparent 32%), radial-gradient(circle at bottom right, rgba(34, 211, 238, .14), transparent 32%), linear-gradient(135deg, #0b1120, #111827);
             color: white;
         }
         
@@ -47,7 +47,7 @@
         }
         
         textarea {
-            min-height: 120px;
+            min-height: 125px;
             resize: vertical;
         }
         
@@ -57,7 +57,7 @@
             border-radius: 14px;
             padding: 13px 18px;
             font-weight: 700;
-            transition: .3s;
+            transition: .25s;
         }
         
         button:hover {
@@ -90,17 +90,17 @@
         
         .login-card {
             width: 100%;
-            max-width: 430px;
+            max-width: 460px;
             background: var(--card);
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
-            border-radius: 28px;
-            padding: 34px;
+            border-radius: 30px;
+            padding: 36px;
             backdrop-filter: blur(18px);
         }
         
         .login-card h1 {
-            font-size: 30px;
+            font-size: 34px;
             margin-bottom: 8px;
         }
         
@@ -119,11 +119,11 @@
         .admin-layout {
             display: none;
             min-height: 100vh;
-            grid-template-columns: 260px 1fr;
+            grid-template-columns: 270px 1fr;
         }
         
         .sidebar {
-            background: rgba(15, 23, 42, .78);
+            background: rgba(15, 23, 42, .82);
             border-right: 1px solid var(--border);
             padding: 24px;
             backdrop-filter: blur(18px);
@@ -133,9 +133,9 @@
         }
         
         .brand {
-            font-size: 26px;
+            font-size: 30px;
             font-weight: 800;
-            margin-bottom: 34px;
+            margin-bottom: 38px;
         }
         
         .brand span {
@@ -182,7 +182,7 @@
         }
         
         .topbar h1 {
-            font-size: 32px;
+            font-size: 34px;
         }
         
         .topbar p {
@@ -201,7 +201,7 @@
         .stat-card {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 22px;
+            border-radius: 24px;
             padding: 22px;
             box-shadow: var(--shadow);
         }
@@ -212,7 +212,7 @@
         }
         
         .stat-card h2 {
-            font-size: 32px;
+            font-size: 34px;
             margin-top: 10px;
             color: var(--main);
         }
@@ -226,24 +226,34 @@
         .panel {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 24px;
+            border-radius: 26px;
             padding: 24px;
             box-shadow: var(--shadow);
         }
         
         .panel h2 {
             margin-bottom: 18px;
-            font-size: 22px;
+            font-size: 23px;
         }
         
         .full {
             grid-column: 1 / -1;
         }
         
+        .preview {
+            width: 220px;
+            height: 135px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin: 8px 0 16px;
+            display: none;
+            border: 1px solid var(--border);
+        }
+        
         .project-item {
             background: #0f172a;
             border: 1px solid var(--border);
-            border-radius: 18px;
+            border-radius: 20px;
             padding: 18px;
             margin-bottom: 14px;
             display: flex;
@@ -267,10 +277,10 @@
         }
         
         .project-thumb {
-            width: 95px;
-            height: 70px;
+            width: 110px;
+            height: 78px;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 14px;
             margin-bottom: 10px;
             border: 1px solid var(--border);
         }
@@ -303,6 +313,11 @@
         
         td {
             color: #cbd5e1;
+        }
+        
+        canvas {
+            width: 100% !important;
+            max-height: 320px;
         }
         
         @media(max-width:1000px) {
@@ -350,6 +365,8 @@
             <a href="#dashboard" class="side-link">📊 Dashboard</a>
             <a href="#heroEdit" class="side-link">🏠 Нүүр засах</a>
             <a href="#projectAdd" class="side-link">➕ Төсөл нэмэх</a>
+            <a href="#projectListPanel" class="side-link">📁 Төслүүд</a>
+            <a href="#chartPanel" class="side-link">📈 График</a>
             <a href="#visitors" class="side-link">👁 Хандалт</a>
 
             <div class="sidebar-bottom">
@@ -362,7 +379,7 @@
             <div class="topbar">
                 <div>
                     <h1>Portfolio Dashboard</h1>
-                    <p>Нүүр хэсэг, холбоо, төсөл, зураг, хандалтаа удирдана.</p>
+                    <p>Нүүр хэсэг, холбоо, төсөл, зураг, хандалт, график удирдана.</p>
                 </div>
                 <button class="btn-primary" onclick="saveAll()">Бүгдийг хадгалах</button>
             </div>
@@ -420,14 +437,23 @@
 
                     <p style="color:#94a3b8; margin-bottom:8px;">Төслийн зураг upload хийх</p>
                     <input type="file" id="projectImageFile" accept="image/*">
+                    <img id="previewImage" class="preview" alt="Preview">
 
                     <button class="btn-primary" onclick="addProject()">Төсөл нэмэх</button>
+                    <button class="btn-dark" onclick="clearProjectForm()">Цэвэрлэх</button>
+
                     <div class="success" id="projectSuccess"></div>
                 </div>
 
-                <div class="panel full">
+                <div class="panel full" id="projectListPanel">
                     <h2>Нэмсэн төслүүд</h2>
+                    <input type="text" id="projectSearch" placeholder="Төсөл хайх...">
                     <div id="projectList"></div>
+                </div>
+
+                <div class="panel full" id="chartPanel">
+                    <h2>Хандалтын график</h2>
+                    <canvas id="viewsChart"></canvas>
                 </div>
 
                 <div class="panel full" id="visitors">
@@ -439,11 +465,14 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="config.js"></script>
 
     <script>
         const ADMIN_EMAIL = "admin@gmail.com";
         const ADMIN_PASSWORD = "123456";
+        let allProjects = [];
+        let viewsChart = null;
 
         function loginAdmin() {
             const email = document.getElementById("loginEmail").value.trim();
@@ -476,6 +505,7 @@
             loadProjects();
             loadStats();
             loadVisitors();
+            loadChart();
         }
 
         async function loadSettings() {
@@ -519,7 +549,7 @@
                 .eq("id", 1);
 
             if (error) {
-                alert("Хадгалах үед алдаа гарлаа. SQL policy шалга.");
+                alert("Хадгалах үед алдаа гарлаа.");
                 console.log(error);
                 return;
             }
@@ -587,20 +617,25 @@
                 });
 
             if (error) {
-                alert("Төсөл нэмэх үед алдаа гарлаа. SQL policy шалга.");
+                alert("Төсөл нэмэх үед алдаа гарлаа.");
                 console.log(error);
                 return;
             }
 
-            document.getElementById("projectTitle").value = "";
-            document.getElementById("projectDesc").value = "";
-            document.getElementById("projectTech").value = "";
-            document.getElementById("projectImageFile").value = "";
-
+            clearProjectForm();
             document.getElementById("projectSuccess").textContent = "Төсөл амжилттай нэмэгдлээ.";
 
             loadProjects();
             loadStats();
+            loadChart();
+        }
+
+        function clearProjectForm() {
+            document.getElementById("projectTitle").value = "";
+            document.getElementById("projectDesc").value = "";
+            document.getElementById("projectTech").value = "";
+            document.getElementById("projectImageFile").value = "";
+            document.getElementById("previewImage").style.display = "none";
         }
 
         async function loadProjects() {
@@ -614,20 +649,25 @@
                     ascending: false
                 });
 
-            const list = document.getElementById("projectList");
-
             if (error) {
                 console.log("Projects error:", error);
-                list.innerHTML = "<p style='color:#f87171;'>Төсөл уншихад алдаа гарлаа.</p>";
+                document.getElementById("projectList").innerHTML = "<p style='color:#f87171;'>Төсөл уншихад алдаа гарлаа.</p>";
                 return;
             }
 
-            if (!data || data.length === 0) {
+            allProjects = data || [];
+            renderProjects(allProjects);
+        }
+
+        function renderProjects(projects) {
+            const list = document.getElementById("projectList");
+
+            if (!projects || projects.length === 0) {
                 list.innerHTML = "<p style='color:#94a3b8;'>Одоогоор төсөл байхгүй.</p>";
                 return;
             }
 
-            list.innerHTML = data.map(project => `
+            list.innerHTML = projects.map(project => `
       <div class="project-item">
         <div>
           <img class="project-thumb" src="${project.image || 'image.png'}" alt="${project.title}">
@@ -656,6 +696,7 @@
 
             loadProjects();
             loadStats();
+            loadChart();
         }
 
         async function loadStats() {
@@ -740,6 +781,93 @@
       </table>
     `;
   }
+
+  async function loadChart() {
+    const { data, error } = await db
+      .from("visits")
+      .select("created_at");
+
+    if (error || !data) {
+      console.log("Chart error:", error);
+      return;
+    }
+
+    const days = {};
+
+    data.forEach(v => {
+      const d = v.created_at.slice(0, 10);
+      days[d] = (days[d] || 0) + 1;
+    });
+
+    const labels = Object.keys(days).sort();
+    const values = labels.map(d => days[d]);
+
+    const ctx = document.getElementById("viewsChart");
+
+    if (viewsChart) {
+      viewsChart.destroy();
+    }
+
+    viewsChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [{
+          label: "Өдөр бүрийн хандалт",
+          data: values,
+          borderWidth: 3,
+          tension: 0.35
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            labels: {
+              color: "#ffffff"
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: "#cbd5e1" },
+            grid: { color: "rgba(255,255,255,.08)" }
+          },
+          y: {
+            ticks: { color: "#cbd5e1" },
+            grid: { color: "rgba(255,255,255,.08)" },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  document.getElementById("projectImageFile").addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const img = document.getElementById("previewImage");
+      img.src = ev.target.result;
+      img.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById("projectSearch").addEventListener("input", function(e) {
+    const keyword = e.target.value.toLowerCase();
+
+    const filtered = allProjects.filter(p => {
+      return (
+        (p.title || "").toLowerCase().includes(keyword) ||
+        (p.description || "").toLowerCase().includes(keyword) ||
+        (p.tech || "").toLowerCase().includes(keyword)
+      );
+    });
+
+    renderProjects(filtered);
+  });
 
   checkSession();
     </script>
