@@ -46,10 +46,6 @@
             margin-bottom: 14px;
         }
         
-        input[type="file"] {
-            padding: 12px;
-        }
-        
         textarea {
             min-height: 120px;
             resize: vertical;
@@ -271,11 +267,12 @@
         }
         
         .project-thumb {
-            width: 90px;
+            width: 95px;
             height: 70px;
             object-fit: cover;
             border-radius: 12px;
             margin-bottom: 10px;
+            border: 1px solid var(--border);
         }
         
         .success {
@@ -287,8 +284,8 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            overflow: hidden;
             border-radius: 14px;
+            overflow: hidden;
         }
         
         th,
@@ -336,9 +333,9 @@
     <div class="login-page" id="loginPage">
         <div class="login-card">
             <h1>Admin Panel</h1>
-            <p>Supabase Auth ашиглан нэвтэрнэ.</p>
+            <p>Portfolio удирдах хэсэг.</p>
 
-            <input type="email" id="loginEmail" placeholder="Admin email">
+            <input type="email" id="loginEmail" placeholder="Email">
             <input type="password" id="loginPassword" placeholder="Password">
 
             <button class="btn-primary" onclick="loginAdmin()">Нэвтрэх</button>
@@ -445,36 +442,28 @@
     <script src="config.js"></script>
 
     <script>
-        async function loginAdmin() {
+        const ADMIN_EMAIL = "admin@gmail.com";
+        const ADMIN_PASSWORD = "123456";
+
+        function loginAdmin() {
             const email = document.getElementById("loginEmail").value.trim();
             const password = document.getElementById("loginPassword").value.trim();
 
-            const {
-                error
-            } = await db.auth.signInWithPassword({
-                email,
-                password
-            });
-
-            if (error) {
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                localStorage.setItem("adminLogin", "true");
+                showAdmin();
+            } else {
                 document.getElementById("loginError").textContent = "Email эсвэл password буруу байна.";
-                return;
             }
-
-            showAdmin();
         }
 
-        async function logoutAdmin() {
-            await db.auth.signOut();
+        function logoutAdmin() {
+            localStorage.removeItem("adminLogin");
             location.reload();
         }
 
-        async function checkSession() {
-            const {
-                data
-            } = await db.auth.getSession();
-
-            if (data.session) {
+        function checkSession() {
+            if (localStorage.getItem("adminLogin") === "true") {
                 showAdmin();
             }
         }
@@ -530,7 +519,7 @@
                 .eq("id", 1);
 
             if (error) {
-                alert("Хадгалах үед алдаа гарлаа.");
+                alert("Хадгалах үед алдаа гарлаа. SQL policy шалга.");
                 console.log(error);
                 return;
             }
@@ -558,7 +547,7 @@
 
             if (uploadError) {
                 console.log("Upload error:", uploadError);
-                alert("Зураг upload хийхэд алдаа гарлаа.");
+                alert("Зураг upload хийхэд алдаа гарлаа. Storage policy шалга.");
                 return null;
             }
 
@@ -598,7 +587,7 @@
                 });
 
             if (error) {
-                alert("Төсөл нэмэх үед алдаа гарлаа.");
+                alert("Төсөл нэмэх үед алдаа гарлаа. SQL policy шалга.");
                 console.log(error);
                 return;
             }
