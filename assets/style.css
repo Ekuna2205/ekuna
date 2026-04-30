@@ -1,0 +1,86 @@
+.admin-body {
+    background: #0b1120;
+    color: white;
+    font-family: Poppins, sans-serif;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.admin-login {
+    max-width: 420px;
+    margin: 100px auto;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.admin-login h2 {
+    margin-bottom: 20px;
+}
+
+.admin-login input,
+.admin-card input,
+.admin-card textarea {
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #111827;
+    color: white;
+    outline: none;
+}
+
+.admin-card textarea {
+    min-height: 120px;
+}
+
+.admin-login button,
+.admin-card button,
+.logout-btn,
+.project-admin-item button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #38bdf8, #22d3ee);
+    color: #08111f;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#loginError {
+    color: #f87171;
+    margin-top: 12px;
+}
+
+.admin-panel {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.admin-panel h1 {
+    margin-bottom: 20px;
+}
+
+.logout-btn {
+    margin-bottom: 20px;
+    background: #ef4444;
+    color: white;
+}
+
+.admin-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 24px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+}
+
+.project-admin-item {
+    background: #111827;
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 14px;
+}
