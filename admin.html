@@ -4,872 +4,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuma | Admin Pro</title>
+    <title>Admin PRO</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script>
 
     <style>
-         :root {
-            --bg: #0b1120;
-            --card: rgba(255, 255, 255, .07);
-            --border: rgba(255, 255, 255, .13);
-            --muted: #94a3b8;
-            --main: #38bdf8;
-            --main2: #22d3ee;
-            --danger: #ef4444;
-            --green: #22c55e;
-            --shadow: 0 18px 55px rgba(0, 0, 0, .38);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Poppins, sans-serif;
-        }
-        
         body {
-            min-height: 100vh;
-            background: radial-gradient(circle at top left, rgba(56, 189, 248, .20), transparent 32%), radial-gradient(circle at bottom right, rgba(34, 211, 238, .14), transparent 32%), linear-gradient(135deg, #0b1120, #111827);
+            background: #0b1120;
             color: white;
+            font-family: Poppins;
+            padding: 20px;
         }
         
         input,
         textarea {
             width: 100%;
-            padding: 14px 16px;
-            border-radius: 14px;
-            background: #0f172a;
-            border: 1px solid var(--border);
-            color: white;
-            outline: none;
-            margin-bottom: 14px;
-        }
-        
-        textarea {
-            min-height: 125px;
-            resize: vertical;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
         }
         
         button {
+            padding: 10px 15px;
             border: none;
+            border-radius: 8px;
             cursor: pointer;
-            border-radius: 14px;
-            padding: 13px 18px;
-            font-weight: 700;
-            transition: .25s;
         }
         
-        button:hover {
-            transform: translateY(-2px);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--main), var(--main2));
-            color: #06111f;
-        }
-        
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-        
-        .btn-dark {
-            background: rgba(255, 255, 255, .08);
-            color: white;
-            border: 1px solid var(--border);
-        }
-        
-        .login-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 25px;
-        }
-        
-        .login-card {
-            width: 100%;
-            max-width: 460px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            border-radius: 30px;
-            padding: 36px;
-            backdrop-filter: blur(18px);
-        }
-        
-        .login-card h1 {
-            font-size: 34px;
-            margin-bottom: 8px;
-        }
-        
-        .login-card p {
-            color: var(--muted);
-            margin-bottom: 24px;
-            font-size: 14px;
-        }
-        
-        .error {
-            color: #f87171;
-            margin-top: 12px;
-            font-size: 14px;
-        }
-        
-        .admin-layout {
-            display: none;
-            min-height: 100vh;
-            grid-template-columns: 270px 1fr;
-        }
-        
-        .sidebar {
-            background: rgba(15, 23, 42, .82);
-            border-right: 1px solid var(--border);
-            padding: 24px;
-            backdrop-filter: blur(18px);
-            position: sticky;
-            top: 0;
-            height: 100vh;
-        }
-        
-        .brand {
-            font-size: 30px;
-            font-weight: 800;
-            margin-bottom: 38px;
-        }
-        
-        .brand span {
-            color: var(--main);
-        }
-        
-        .side-link {
-            display: block;
-            padding: 14px 16px;
-            border-radius: 14px;
-            color: #cbd5e1;
+        .card {
+            background: #111827;
+            padding: 15px;
+            border-radius: 12px;
             margin-bottom: 10px;
-            text-decoration: none;
-            transition: .3s;
-            border: 1px solid transparent;
         }
         
-        .side-link:hover {
-            background: rgba(56, 189, 248, .1);
-            border-color: rgba(56, 189, 248, .25);
-            color: white;
-        }
-        
-        .sidebar-bottom {
-            position: absolute;
-            left: 24px;
-            right: 24px;
-            bottom: 24px;
-            display: grid;
-            gap: 10px;
-        }
-        
-        .main {
-            padding: 28px;
-        }
-        
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        
-        .topbar h1 {
-            font-size: 34px;
-        }
-        
-        .topbar p {
-            color: var(--muted);
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-bottom: 24px;
-        }
-        
-        .stat-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 22px;
-            box-shadow: var(--shadow);
-        }
-        
-        .stat-card span {
-            color: var(--muted);
-            font-size: 14px;
-        }
-        
-        .stat-card h2 {
-            font-size: 34px;
-            margin-top: 10px;
-            color: var(--main);
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 22px;
-        }
-        
-        .panel {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 26px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-        }
-        
-        .panel h2 {
-            margin-bottom: 18px;
-            font-size: 23px;
-        }
-        
-        .full {
-            grid-column: 1 / -1;
-        }
-        
-        .preview {
-            width: 220px;
-            height: 135px;
-            object-fit: cover;
-            border-radius: 16px;
-            margin: 8px 0 16px;
-            display: none;
-            border: 1px solid var(--border);
-        }
-        
-        .project-item {
-            background: #0f172a;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 14px;
-            display: flex;
-            justify-content: space-between;
-            gap: 16px;
-            align-items: flex-start;
-        }
-        
-        .project-item h3 {
-            margin-bottom: 6px;
-        }
-        
-        .project-item p {
-            color: #cbd5e1;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-        
-        .project-item small {
-            color: var(--main);
-        }
-        
-        .project-thumb {
-            width: 110px;
-            height: 78px;
-            object-fit: cover;
-            border-radius: 14px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-        }
-        
-        .success {
-            color: var(--green);
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 14px;
-            overflow: hidden;
-        }
-        
-        th,
-        td {
-            padding: 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, .08);
-            text-align: left;
-            font-size: 14px;
-        }
-        
-        th {
-            color: var(--main);
-            background: #0f172a;
-        }
-        
-        td {
-            color: #cbd5e1;
-        }
-        
-        canvas {
-            width: 100% !important;
-            max-height: 320px;
-        }
-        
-        @media(max-width:1000px) {
-            .admin-layout {
-                grid-template-columns: 1fr;
-            }
-            .sidebar {
-                position: relative;
-                height: auto;
-            }
-            .sidebar-bottom {
-                position: static;
-                margin-top: 20px;
-            }
-            .stats,
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            .full {
-                grid-column: auto;
-            }
+        img {
+            max-width: 120px;
+            border-radius: 8px;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="login-page" id="loginPage">
-        <div class="login-card">
-            <h1>Admin Panel</h1>
-            <p>Portfolio удирдах хэсэг.</p>
+    <h1>🔥 Admin Dashboard</h1>
 
-            <input type="email" id="loginEmail" placeholder="Email">
-            <input type="password" id="loginPassword" placeholder="Password">
-
-            <button class="btn-primary" onclick="loginAdmin()">Нэвтрэх</button>
-            <div class="error" id="loginError"></div>
-        </div>
+    <div id="loginBox">
+        <input id="email" placeholder="email">
+        <input id="pass" type="password" placeholder="password">
+        <button onclick="login()">Login</button>
     </div>
 
-    <div class="admin-layout" id="adminLayout">
-        <aside class="sidebar">
-            <div class="brand">Kuma<span>.</span></div>
+    <div id="admin" style="display:none;">
 
-            <a href="#dashboard" class="side-link">📊 Dashboard</a>
-            <a href="#heroEdit" class="side-link">🏠 Нүүр засах</a>
-            <a href="#projectAdd" class="side-link">➕ Төсөл нэмэх</a>
-            <a href="#projectListPanel" class="side-link">📁 Төслүүд</a>
-            <a href="#chartPanel" class="side-link">📈 График</a>
-            <a href="#visitors" class="side-link">👁 Хандалт</a>
+        <h2>➕ Project</h2>
+        <input id="title" placeholder="title">
+        <textarea id="desc" placeholder="description"></textarea>
+        <input id="tech" placeholder="tech">
+        <input type="file" id="file">
 
-            <div class="sidebar-bottom">
-                <button class="btn-dark" onclick="window.location.href='index.html'">Сайт руу буцах</button>
-                <button class="btn-danger" onclick="logoutAdmin()">Гарах</button>
-            </div>
-        </aside>
+        <img id="preview" style="display:none">
 
-        <main class="main" id="dashboard">
-            <div class="topbar">
-                <div>
-                    <h1>Portfolio Dashboard</h1>
-                    <p>Нүүр хэсэг, холбоо, төсөл, зураг, хандалт, график удирдана.</p>
-                </div>
-                <button class="btn-primary" onclick="saveAll()">Бүгдийг хадгалах</button>
-            </div>
+        <button onclick="save()">Save</button>
+        <button onclick="clearForm()">Clear</button>
 
-            <div class="stats">
-                <div class="stat-card">
-                    <span>Нийт төсөл</span>
-                    <h2 id="totalProjects">0</h2>
-                </div>
+        <hr>
 
-                <div class="stat-card">
-                    <span>Нийт хандалт</span>
-                    <h2 id="totalViews">0</h2>
-                </div>
+        <input id="search" placeholder="Search...">
 
-                <div class="stat-card">
-                    <span>Өнөөдрийн хандалт</span>
-                    <h2 id="todayViews">0</h2>
-                </div>
+        <div id="list"></div>
 
-                <div class="stat-card">
-                    <span>Admin status</span>
-                    <h2>Online</h2>
-                </div>
-            </div>
+        <hr>
 
-            <div class="grid">
-                <div class="panel" id="heroEdit">
-                    <h2>Нүүр хэсэг засах</h2>
+        <h2>📊 Chart</h2>
+        <canvas id="chart"></canvas>
 
-                    <input type="text" id="adminName" placeholder="Нэр">
-                    <input type="text" id="adminTitle" placeholder="Мэргэжил">
-                    <textarea id="adminDesc" placeholder="Тайлбар"></textarea>
-
-                    <button class="btn-primary" onclick="saveSettings()">Хадгалах</button>
-                    <div class="success" id="settingsSuccess"></div>
-                </div>
-
-                <div class="panel">
-                    <h2>Холбоо барих</h2>
-
-                    <input type="email" id="adminEmail" placeholder="Email">
-                    <input type="text" id="adminPhone" placeholder="Утас">
-                    <input type="text" id="adminLocation" placeholder="Байршил">
-
-                    <button class="btn-primary" onclick="saveSettings()">Хадгалах</button>
-                </div>
-
-                <div class="panel full" id="projectAdd">
-                    <h2>Шинэ төсөл нэмэх</h2>
-
-                    <input type="text" id="projectTitle" placeholder="Төслийн нэр">
-                    <textarea id="projectDesc" placeholder="Төслийн тайлбар"></textarea>
-                    <input type="text" id="projectTech" placeholder="Technology: HTML, CSS, JS">
-
-                    <p style="color:#94a3b8; margin-bottom:8px;">Төслийн зураг upload хийх</p>
-                    <input type="file" id="projectImageFile" accept="image/*">
-                    <img id="previewImage" class="preview" alt="Preview">
-
-                    <button class="btn-primary" onclick="addProject()">Төсөл нэмэх</button>
-                    <button class="btn-dark" onclick="clearProjectForm()">Цэвэрлэх</button>
-
-                    <div class="success" id="projectSuccess"></div>
-                </div>
-
-                <div class="panel full" id="projectListPanel">
-                    <h2>Нэмсэн төслүүд</h2>
-                    <input type="text" id="projectSearch" placeholder="Төсөл хайх...">
-                    <div id="projectList"></div>
-                </div>
-
-                <div class="panel full" id="chartPanel">
-                    <h2>Хандалтын график</h2>
-                    <canvas id="viewsChart"></canvas>
-                </div>
-
-                <div class="panel full" id="visitors">
-                    <h2>Сүүлийн хандалтууд</h2>
-                    <div id="visitorTable"></div>
-                </div>
-            </div>
-        </main>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="config.js"></script>
 
     <script>
         const ADMIN_EMAIL = "admin@gmail.com";
-        const ADMIN_PASSWORD = "123456";
-        let allProjects = [];
-        let viewsChart = null;
+        const ADMIN_PASS = "123456";
 
-        function loginAdmin() {
-            const email = document.getElementById("loginEmail").value.trim();
-            const password = document.getElementById("loginPassword").value.trim();
+        let editId = null;
+        let oldImg = null;
+        let all = [];
 
-            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-                localStorage.setItem("adminLogin", "true");
-                showAdmin();
-            } else {
-                document.getElementById("loginError").textContent = "Email эсвэл password буруу байна.";
-            }
+        function login() {
+            if (
+                document.getElementById("email").value === ADMIN_EMAIL &&
+                document.getElementById("pass").value === ADMIN_PASS
+            ) {
+                document.getElementById("loginBox").style.display = "none";
+                document.getElementById("admin").style.display = "block";
+                load();
+            } else alert("wrong");
         }
 
-        function logoutAdmin() {
-            localStorage.removeItem("adminLogin");
-            location.reload();
-        }
-
-        function checkSession() {
-            if (localStorage.getItem("adminLogin") === "true") {
-                showAdmin();
-            }
-        }
-
-        function showAdmin() {
-            document.getElementById("loginPage").style.display = "none";
-            document.getElementById("adminLayout").style.display = "grid";
-
-            loadSettings();
-            loadProjects();
-            loadStats();
-            loadVisitors();
-            loadChart();
-        }
-
-        async function loadSettings() {
-            const {
-                data,
-                error
-            } = await db
-                .from("site_settings")
-                .select("*")
-                .eq("id", 1)
-                .single();
-
-            if (error || !data) {
-                console.log("Load settings error:", error);
-                return;
-            }
-
-            document.getElementById("adminName").value = data.name || "";
-            document.getElementById("adminTitle").value = data.title || "";
-            document.getElementById("adminDesc").value = data.description || "";
-            document.getElementById("adminEmail").value = data.email || "";
-            document.getElementById("adminPhone").value = data.phone || "";
-            document.getElementById("adminLocation").value = data.location || "";
-        }
-
-        async function saveSettings() {
-            const payload = {
-                name: document.getElementById("adminName").value,
-                title: document.getElementById("adminTitle").value,
-                description: document.getElementById("adminDesc").value,
-                email: document.getElementById("adminEmail").value,
-                phone: document.getElementById("adminPhone").value,
-                location: document.getElementById("adminLocation").value
+        document.getElementById("file").onchange = e => {
+            const f = e.target.files[0];
+            const r = new FileReader();
+            r.onload = x => {
+                preview.src = x.target.result;
+                preview.style.display = "block";
             };
+            r.readAsDataURL(f);
+        };
 
-            const {
-                error
-            } = await db
-                .from("site_settings")
-                .update(payload)
-                .eq("id", 1);
-
-            if (error) {
-                alert("Хадгалах үед алдаа гарлаа.");
-                console.log(error);
-                return;
-            }
-
-            document.getElementById("settingsSuccess").textContent = "Мэдээлэл амжилттай хадгалагдлаа.";
+        async function upload(f) {
+            if (!f) return oldImg || "image.png";
+            const name = Date.now() + "_" + f.name;
+            await db.storage.from("projects").upload(name, f);
+            return db.storage.from("projects").getPublicUrl(name).data.publicUrl;
         }
 
-        async function saveAll() {
-            await saveSettings();
-            alert("Бүх мэдээлэл хадгалагдлаа.");
-        }
+        async function save() {
+            const title = titleInput.value;
+            const desc = descInput.value;
+            const tech = techInput.value;
+            const file = fileInput.files[0];
 
-        async function uploadImage(file) {
-            if (!file) return "image.png";
+            const img = await upload(file);
 
-            const fileExt = file.name.split(".").pop();
-            const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
-
-            const {
-                error: uploadError
-            } = await db
-                .storage
-                .from("projects")
-                .upload(fileName, file);
-
-            if (uploadError) {
-                console.log("Upload error:", uploadError);
-                alert("Зураг upload хийхэд алдаа гарлаа. Storage policy шалга.");
-                return null;
+            if (editId) {
+                await db.from("projects").update({
+                    title,
+                    description: desc,
+                    tech,
+                    image: img
+                }).eq("id", editId);
+            } else {
+                await db.from("projects").insert({
+                    title,
+                    description: desc,
+                    tech,
+                    image: img
+                });
             }
 
+            clearForm();
+            load();
+        }
+
+        function clearForm() {
+            editId = null;
+            oldImg = null;
+            titleInput.value = "";
+            descInput.value = "";
+            techInput.value = "";
+            fileInput.value = "";
+            preview.style.display = "none";
+        }
+
+        async function load() {
             const {
                 data
-            } = db
-                .storage
-                .from("projects")
-                .getPublicUrl(fileName);
-
-            return data.publicUrl;
+            } = await db.from("projects").select("*").order("id", {
+                ascending: false
+            });
+            all = data;
+            render(data);
+            chart();
         }
 
-        async function addProject() {
-            const title = document.getElementById("projectTitle").value.trim();
-            const description = document.getElementById("projectDesc").value.trim();
-            const tech = document.getElementById("projectTech").value.trim();
-            const file = document.getElementById("projectImageFile").files[0];
+        function render(arr) {
+            list.innerHTML = arr.map(p => `
+    <div class="card">
+      <img src="${p.image}">
+      <h3>${p.title}</h3>
+      <p>${p.description}</p>
+      <small>${p.tech}</small><br><br>
 
-            if (!title || !description) {
-                alert("Төслийн нэр болон тайлбар оруул.");
-                return;
-            }
+      <button onclick='edit(${JSON.stringify(p)})'>Edit</button>
+      <button onclick='del(${p.id})'>Delete</button>
+    </div>
+  `).join("");
+        }
 
-            const imageUrl = await uploadImage(file);
-            if (!imageUrl) return;
+        function edit(p) {
+            editId = p.id;
+            oldImg = p.image;
 
+            titleInput.value = p.title;
+            descInput.value = p.description;
+            techInput.value = p.tech;
+
+            preview.src = p.image;
+            preview.style.display = "block";
+        }
+
+        async function del(id) {
+            await db.from("projects").delete().eq("id", id);
+            load();
+        }
+
+        search.oninput = e => {
+            const v = e.target.value.toLowerCase();
+            render(all.filter(x => JSON.stringify(x).toLowerCase().includes(v)));
+        };
+
+        async function chart() {
             const {
-                error
-            } = await db
-                .from("projects")
-                .insert({
-                    title,
-                    description,
-                    tech,
-                    image: imageUrl
-                });
+                data
+            } = await db.from("visits").select("created_at");
 
-            if (error) {
-                alert("Төсөл нэмэх үед алдаа гарлаа.");
-                console.log(error);
-                return;
-            }
+            const d = {};
+            data.forEach(v => {
+                const day = v.created_at.slice(0, 10);
+                d[day] = (d[day] || 0) + 1;
+            });
 
-            clearProjectForm();
-            document.getElementById("projectSuccess").textContent = "Төсөл амжилттай нэмэгдлээ.";
-
-            loadProjects();
-            loadStats();
-            loadChart();
+            new Chart(chartCanvas, {
+                type: "line",
+                data: {
+                    labels: Object.keys(d),
+                    datasets: [{
+                        label: "views",
+                        data: Object.values(d)
+                    }]
+                }
+            });
         }
-
-        function clearProjectForm() {
-            document.getElementById("projectTitle").value = "";
-            document.getElementById("projectDesc").value = "";
-            document.getElementById("projectTech").value = "";
-            document.getElementById("projectImageFile").value = "";
-            document.getElementById("previewImage").style.display = "none";
-        }
-
-        async function loadProjects() {
-            const {
-                data,
-                error
-            } = await db
-                .from("projects")
-                .select("*")
-                .order("created_at", {
-                    ascending: false
-                });
-
-            if (error) {
-                console.log("Projects error:", error);
-                document.getElementById("projectList").innerHTML = "<p style='color:#f87171;'>Төсөл уншихад алдаа гарлаа.</p>";
-                return;
-            }
-
-            allProjects = data || [];
-            renderProjects(allProjects);
-        }
-
-        function renderProjects(projects) {
-            const list = document.getElementById("projectList");
-
-            if (!projects || projects.length === 0) {
-                list.innerHTML = "<p style='color:#94a3b8;'>Одоогоор төсөл байхгүй.</p>";
-                return;
-            }
-
-            list.innerHTML = projects.map(project => `
-      <div class="project-item">
-        <div>
-          <img class="project-thumb" src="${project.image || 'image.png'}" alt="${project.title}">
-          <h3>${project.title}</h3>
-          <p>${project.description}</p>
-          <small>${project.tech || ""}</small>
-        </div>
-        <button class="btn-danger" onclick="deleteProject(${project.id})">Устгах</button>
-      </div>
-    `).join("");
-        }
-
-        async function deleteProject(id) {
-            const ok = confirm("Энэ төслийг устгах уу?");
-            if (!ok) return;
-
-            const {
-                error
-            } = await db.from("projects").delete().eq("id", id);
-
-            if (error) {
-                alert("Устгах үед алдаа гарлаа.");
-                console.log(error);
-                return;
-            }
-
-            loadProjects();
-            loadStats();
-            loadChart();
-        }
-
-        async function loadStats() {
-            const {
-                count: projectCount
-            } = await db
-                .from("projects")
-                .select("*", {
-                    count: "exact",
-                    head: true
-                });
-
-            const {
-                count: viewCount
-            } = await db
-                .from("visits")
-                .select("*", {
-                    count: "exact",
-                    head: true
-                });
-
-            const today = new Date().toISOString().slice(0, 10);
-
-            const {
-                count: todayCount
-            } = await db
-                .from("visits")
-                .select("*", {
-                    count: "exact",
-                    head: true
-                })
-                .gte("created_at", today + "T00:00:00");
-
-            document.getElementById("totalProjects").textContent = projectCount || 0;
-            document.getElementById("totalViews").textContent = viewCount || 0;
-            document.getElementById("todayViews").textContent = todayCount || 0;
-        }
-
-        async function loadVisitors() {
-            const {
-                data,
-                error
-            } = await db
-                .from("visits")
-                .select("*")
-                .order("created_at", {
-                    ascending: false
-                })
-                .limit(20);
-
-            const box = document.getElementById("visitorTable");
-
-            if (error) {
-                console.log("Visitors error:", error);
-                box.innerHTML = "<p style='color:#f87171;'>Хандалт уншихад алдаа гарлаа.</p>";
-                return;
-            }
-
-            if (!data || data.length === 0) {
-                box.innerHTML = "<p style='color:#94a3b8;'>Одоогоор хандалт байхгүй.</p>";
-                return;
-            }
-
-            box.innerHTML = `
-      <table>
-        <thead>
-          <tr>
-            <th>Огноо</th>
-            <th>Хуудас</th>
-            <th>Device</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${data.map(v => `
-            <tr>
-              <td>${new Date(v.created_at).toLocaleString()}</td>
-              <td>${v.page}</td>
-              <td>${v.device}</td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    `;
-  }
-
-  async function loadChart() {
-    const { data, error } = await db
-      .from("visits")
-      .select("created_at");
-
-    if (error || !data) {
-      console.log("Chart error:", error);
-      return;
-    }
-
-    const days = {};
-
-    data.forEach(v => {
-      const d = v.created_at.slice(0, 10);
-      days[d] = (days[d] || 0) + 1;
-    });
-
-    const labels = Object.keys(days).sort();
-    const values = labels.map(d => days[d]);
-
-    const ctx = document.getElementById("viewsChart");
-
-    if (viewsChart) {
-      viewsChart.destroy();
-    }
-
-    viewsChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels,
-        datasets: [{
-          label: "Өдөр бүрийн хандалт",
-          data: values,
-          borderWidth: 3,
-          tension: 0.35
-        }]
-      },
-      options: {
-        plugins: {
-          legend: {
-            labels: {
-              color: "#ffffff"
-            }
-          }
-        },
-        scales: {
-          x: {
-            ticks: { color: "#cbd5e1" },
-            grid: { color: "rgba(255,255,255,.08)" }
-          },
-          y: {
-            ticks: { color: "#cbd5e1" },
-            grid: { color: "rgba(255,255,255,.08)" },
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  }
-
-  document.getElementById("projectImageFile").addEventListener("change", function(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-      const img = document.getElementById("previewImage");
-      img.src = ev.target.result;
-      img.style.display = "block";
-    };
-    reader.readAsDataURL(file);
-  });
-
-  document.getElementById("projectSearch").addEventListener("input", function(e) {
-    const keyword = e.target.value.toLowerCase();
-
-    const filtered = allProjects.filter(p => {
-      return (
-        (p.title || "").toLowerCase().includes(keyword) ||
-        (p.description || "").toLowerCase().includes(keyword) ||
-        (p.tech || "").toLowerCase().includes(keyword)
-      );
-    });
-
-    renderProjects(filtered);
-  });
-
-  checkSession();
     </script>
 
 </body>
