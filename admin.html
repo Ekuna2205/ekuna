@@ -13,7 +13,6 @@
             --bg: #0b1120;
             --card: rgba(255, 255, 255, .06);
             --border: rgba(255, 255, 255, .12);
-            --text: #fff;
             --muted: #94a3b8;
             --main: #38bdf8;
             --main2: #22d3ee;
@@ -45,6 +44,10 @@
             color: white;
             outline: none;
             margin-bottom: 14px;
+        }
+        
+        input[type="file"] {
+            padding: 12px;
         }
         
         textarea {
@@ -267,6 +270,14 @@
             color: var(--main);
         }
         
+        .project-thumb {
+            width: 90px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        
         .success {
             color: var(--green);
             margin-top: 10px;
@@ -354,7 +365,7 @@
             <div class="topbar">
                 <div>
                     <h1>Portfolio Dashboard</h1>
-                    <p>Нүүр хэсэг, холбоо, төсөл, хандалтаа удирдана.</p>
+                    <p>Нүүр хэсэг, холбоо, төсөл, зураг, хандалтаа удирдана.</p>
                 </div>
                 <button class="btn-primary" onclick="saveAll()">Бүгдийг хадгалах</button>
             </div>
@@ -409,7 +420,9 @@
                     <input type="text" id="projectTitle" placeholder="Төслийн нэр">
                     <textarea id="projectDesc" placeholder="Төслийн тайлбар"></textarea>
                     <input type="text" id="projectTech" placeholder="Technology: HTML, CSS, JS">
-                    <input type="text" id="projectImage" placeholder="Зургийн нэр эсвэл link: image.png">
+
+                    <p style="color:#94a3b8; margin-bottom:8px;">Төслийн зураг upload хийх</p>
+                    <input type="file" id="projectImageFile" accept="image/*">
 
                     <button class="btn-primary" onclick="addProject()">Төсөл нэмэх</button>
                     <div class="success" id="projectSuccess"></div>
@@ -478,14 +491,18 @@
 
         async function loadSettings() {
             const {
-                data
+                data,
+                error
             } = await db
                 .from("site_settings")
                 .select("*")
                 .eq("id", 1)
                 .single();
 
-            if (!data) return;
+            if (error || !data) {
+                console.log("Load settings error:", error);
+                return;
+            }
 
             document.getElementById("adminName").value = data.name || "";
             document.getElementById("adminTitle").value = data.title || "";
@@ -512,9 +529,13 @@
                 .update(payload)
                 .eq("id", 1);
 
-            if (!error) {
-                document.getElementById("settingsSuccess").textContent = "Мэдээлэл амжилттай хадгалагдлаа.";
+            if (error) {
+                alert("Хадгалах үед алдаа гарлаа.");
+                console.log(error);
+                return;
             }
+
+            document.getElementById("settingsSuccess").textContent = "Мэдээлэл амжилттай хадгалагдлаа.";
         }
 
         async function saveAll() {
@@ -522,16 +543,48 @@
             alert("Бүх мэдээлэл хадгалагдлаа.");
         }
 
+        async function uploadImage(file) {
+            if (!file) return "image.png";
+
+            const fileExt = file.name.split(".").pop();
+            const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+
+            const {
+                error: uploadError
+            } = await db
+                .storage
+                .from("projects")
+                .upload(fileName, file);
+
+            if (uploadError) {
+                console.log("Upload error:", uploadError);
+                alert("Зураг upload хийхэд алдаа гарлаа.");
+                return null;
+            }
+
+            const {
+                data
+            } = db
+                .storage
+                .from("projects")
+                .getPublicUrl(fileName);
+
+            return data.publicUrl;
+        }
+
         async function addProject() {
             const title = document.getElementById("projectTitle").value.trim();
             const description = document.getElementById("projectDesc").value.trim();
             const tech = document.getElementById("projectTech").value.trim();
-            const image = document.getElementById("projectImage").value.trim() || "image.png";
+            const file = document.getElementById("projectImageFile").files[0];
 
             if (!title || !description) {
                 alert("Төслийн нэр болон тайлбар оруул.");
                 return;
             }
+
+            const imageUrl = await uploadImage(file);
+            if (!imageUrl) return;
 
             const {
                 error
@@ -541,24 +594,30 @@
                     title,
                     description,
                     tech,
-                    image
+                    image: imageUrl
                 });
 
-            if (!error) {
-                document.getElementById("projectTitle").value = "";
-                document.getElementById("projectDesc").value = "";
-                document.getElementById("projectTech").value = "";
-                document.getElementById("projectImage").value = "";
-                document.getElementById("projectSuccess").textContent = "Төсөл амжилттай нэмэгдлээ.";
-
-                loadProjects();
-                loadStats();
+            if (error) {
+                alert("Төсөл нэмэх үед алдаа гарлаа.");
+                console.log(error);
+                return;
             }
+
+            document.getElementById("projectTitle").value = "";
+            document.getElementById("projectDesc").value = "";
+            document.getElementById("projectTech").value = "";
+            document.getElementById("projectImageFile").value = "";
+
+            document.getElementById("projectSuccess").textContent = "Төсөл амжилттай нэмэгдлээ.";
+
+            loadProjects();
+            loadStats();
         }
 
         async function loadProjects() {
             const {
-                data
+                data,
+                error
             } = await db
                 .from("projects")
                 .select("*")
@@ -568,6 +627,12 @@
 
             const list = document.getElementById("projectList");
 
+            if (error) {
+                console.log("Projects error:", error);
+                list.innerHTML = "<p style='color:#f87171;'>Төсөл уншихад алдаа гарлаа.</p>";
+                return;
+            }
+
             if (!data || data.length === 0) {
                 list.innerHTML = "<p style='color:#94a3b8;'>Одоогоор төсөл байхгүй.</p>";
                 return;
@@ -576,6 +641,7 @@
             list.innerHTML = data.map(project => `
       <div class="project-item">
         <div>
+          <img class="project-thumb" src="${project.image || 'image.png'}" alt="${project.title}">
           <h3>${project.title}</h3>
           <p>${project.description}</p>
           <small>${project.tech || ""}</small>
@@ -586,10 +652,18 @@
         }
 
         async function deleteProject(id) {
-            const confirmDelete = confirm("Энэ төслийг устгах уу?");
-            if (!confirmDelete) return;
+            const ok = confirm("Энэ төслийг устгах уу?");
+            if (!ok) return;
 
-            await db.from("projects").delete().eq("id", id);
+            const {
+                error
+            } = await db.from("projects").delete().eq("id", id);
+
+            if (error) {
+                alert("Устгах үед алдаа гарлаа.");
+                console.log(error);
+                return;
+            }
 
             loadProjects();
             loadStats();
@@ -633,7 +707,8 @@
 
         async function loadVisitors() {
             const {
-                data
+                data,
+                error
             } = await db
                 .from("visits")
                 .select("*")
@@ -643,6 +718,12 @@
                 .limit(20);
 
             const box = document.getElementById("visitorTable");
+
+            if (error) {
+                console.log("Visitors error:", error);
+                box.innerHTML = "<p style='color:#f87171;'>Хандалт уншихад алдаа гарлаа.</p>";
+                return;
+            }
 
             if (!data || data.length === 0) {
                 box.innerHTML = "<p style='color:#94a3b8;'>Одоогоор хандалт байхгүй.</p>";
